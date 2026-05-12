@@ -20,11 +20,11 @@
   --admin-orange:     #F59E0B;
   --admin-purple:     #8B5CF6;
 
-  --admin-bg:         #FFF7ED;
+  --admin-bg:         #ffefef;
   --admin-bg-alt:     #FFE8CC;
-  --admin-card:       #FFFFFF;
+  --admin-card:       #ffffff;
   --admin-surface:    #FFF1E6;
-  --admin-sidebar-bg: #1A0F0A;
+  --admin-sidebar-bg: #eabaa4;
 
   --admin-text:       #1F1F1F;
   --admin-text-soft:  #4A4A4A;
@@ -94,7 +94,7 @@
 .admin-side-brand-text {
   font-weight: 700;
   font-size: 0.95rem;
-  color: #fff;
+  color: #faf7f7;
 }
 
 .admin-side-brand-text span {

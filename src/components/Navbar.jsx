@@ -5,9 +5,9 @@ import { useAuth } from "../context/AuthContext";
 const T = {
   blue:   "#d82323",
   blueDk: "#9ce7bf",
-  blueLt: "#DBEAFE",
-  gray50: "#F9FAFB",
-  gray100:"#F3F4F6",
+  blueLt: "#edd0c0",
+  gray50: "#f0e0cb",
+  gray100:"#f6dfc9",
   gray200:"#E5E7EB",
   gray400:"#9CA3AF",
   gray600:"#4B5563",
@@ -40,7 +40,7 @@ export default function Navbar() {
   return (
     <nav style={{
       position: "sticky", top: 0, zIndex: 100,
-      background: "#fff",
+      background: "#ffffff",
       borderBottom: `1px solid ${T.gray100}`,
       boxShadow: "0 1px 12px rgba(0,0,0,0.06)",
       fontFamily: "'Poppins', sans-serif",
@@ -99,7 +99,7 @@ export default function Navbar() {
               {menuOpen && (
                 <div style={{
                   position: "absolute", top: "calc(100% + 10px)", right: 0,
-                  background: "#fff", borderRadius: 12, border: `1px solid ${T.gray200}`,
+                  background: "#f3debe", borderRadius: 12, border: `1px solid ${T.gray200}`,
                   boxShadow: "0 8px 32px rgba(0,0,0,0.12)", minWidth: 180,
                   overflow: "hidden", zIndex: 200,
                 }}>
@@ -136,13 +136,13 @@ export default function Navbar() {
                 padding: "8px 16px", borderRadius: 9,
                 border: `1.5px solid ${T.gray200}`, color: T.gray600,
                 fontSize: "0.85rem", fontWeight: 600, textDecoration: "none",
-                background: "#fff", transition: "all 0.2s",
+                background: "#fdfdfd", transition: "all 0.2s",
               }}>
                 Connexion
               </Link>
               <Link to="/register" style={{
                 padding: "8px 16px", borderRadius: 9,
-                background: T.blue, color: "#fff",
+                background: T.blue, color: "#fdfbf8",
                 fontSize: "0.85rem", fontWeight: 600, textDecoration: "none",
                 boxShadow: `0 4px 12px rgba(37,99,235,0.3)`, transition: "all 0.2s",
               }}>

@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
+import buveetteBg from '../../assets/buv_background.jpg'; // ✅ IMPORT IMAGE
 
 /* ─────────────────────────────────────────────
    DESIGN TOKENS — Foodzand palette CLAIR
 ───────────────────────────────────────────── */
 const C = {
-  red:      "#E8272A",
-  redDk:    "#C01F22",
+  red:      "#e8270d",
+  redDk:    "#f11418",
   redLt:    "#FF5558",
   redGlow:  "rgba(232,39,42,0.25)",
   yellow:   "#F9C021",
@@ -474,7 +475,7 @@ function CTAButton({ to, children, variant = "primary", style: extraStyle = {} }
 }
 
 /* ─────────────────────────────────────────────
-   HERO SECTION
+   HERO SECTION — AVEC IMAGE DE BACKGROUND ✅
 ───────────────────────────────────────────── */
 function HeroSection() {
   const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
@@ -494,9 +495,22 @@ function HeroSection() {
       position: "relative", minHeight: "100vh",
       display: "flex", alignItems: "center", justifyContent: "center",
       overflow: "hidden",
-      background: `radial-gradient(ellipse at ${mouse.x * 100}% ${mouse.y * 100}%, #FFF5F0 0%, ${C.bg} 55%)`,
+      // ✅ BACKGROUND IMAGE
+      backgroundImage: `url(${buveetteBg})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundAttachment: "fixed",
       paddingTop: "0rem",
     }}>
+
+      {/* ✅ OVERLAY SOMBRE */}
+      <div style={{
+        position: "absolute",
+        inset: 0,
+        background: "rgba(0, 0, 0, 0.55)",
+        zIndex: 0.5,
+      }} />
+
       <BlobCanvas colors={[
         "rgba(232,39,42,0.10)",
         "rgba(249,192,33,0.07)",
@@ -528,39 +542,45 @@ function HeroSection() {
         <h1 style={{
           fontFamily: "'Poppins', sans-serif", fontWeight: 900,
           fontSize: "clamp(2.8rem, 7.5vw, 6.5rem)", lineHeight: 1.02,
-          color: C.text, marginBottom: "0.3rem",
+          // ✅ TEXTE BLANC
+          color: "#FFFFFF",
+          marginBottom: "0.3rem",
           letterSpacing: "-0.03em",
           animation: "fadeSlideUp 0.75s cubic-bezier(.23,1,.32,1) 0.35s both",
           transform: `translate(${px * 0.45}px, ${py * 0.35}px)`,
           transition: "transform 0.1s ease",
+          // ✅ SHADOW POUR LISIBILITÉ
+          textShadow: "0 2px 8px rgba(0,0,0,0.2)",
         }}>
-          La vraie food{" "}
+          Votre énergie{" "}
           <span style={{
             background: `linear-gradient(135deg, ${C.red} 0%, ${C.yellowDk} 100%)`,
             WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
             display: "inline-block",
           }}>
-            du campus
+            au quotidien
           </span>
-          ,{" "}
+          {" "}
           <span style={{
-            background: `linear-gradient(135deg, ${C.greenDk} 0%, #16a34a 100%)`,
+            background: `linear-gradient(135deg, ${C.yellowDk} 0%, #fbbf24 100%)`,
             WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text",
           }}>
-            réinventée.
+            commence ici
           </span>
         </h1>
 
         <p style={{
           fontFamily: "'Poppins', sans-serif",
           fontSize: "clamp(1rem, 2vw, 1.2rem)",
-          color: C.muted,
+          // ✅ BLANC TRANSPARENT
+          color: "rgba(255, 255, 255, 0.9)",
           maxWidth: 560, margin: "1.8rem auto 3rem",
           lineHeight: 1.8, fontWeight: 400,
           animation: "fadeSlideUp 0.75s cubic-bezier(.23,1,.32,1) 0.5s both",
+          // ✅ SHADOW
+          textShadow: "0 1px 4px rgba(0,0,0,0.2)",
         }}>
-          Repas chauds, boissons fraîches, snacks gourmands.
-          Commandez, récupérez, savourez sans file d'attente.
+          Commandez en ligne et récupérez votre repas sans attente
         </p>
 
         {/* CTAs */}
@@ -589,7 +609,10 @@ function HeroSection() {
             <span key={text} style={{
               display: "inline-flex", alignItems: "center", gap: "6px",
               fontFamily: "'Poppins', sans-serif", fontSize: "0.82rem",
-              color: C.muted, fontWeight: 500,
+              // ✅ BLANC TRANSPARENT
+              color: "rgba(255, 255, 255, 0.8)", fontWeight: 500,
+              // ✅ SHADOW
+              textShadow: "0 1px 3px rgba(0,0,0,0.2)",
             }}>
               <Ic width={14} height={14} style={{ color: C.yellowDk }} />
               {text}
@@ -746,7 +769,7 @@ function HowItWorks() {
   const colors = [C.red, C.yellowDk, C.green, C.red];
 
   return (
-    <section id="how" style={{ padding: "7rem 2rem", background: C.bg, position: "relative", overflow: "hidden" }}>
+    <section id="how" style={{ padding: "7rem 2rem", background: C.bgAlt, position: "relative", overflow: "hidden" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <Reveal>
           <p style={{
@@ -1073,6 +1096,7 @@ function CTABanner() {
     </section>
   );
 }
+
 /* ─────────────────────────────────────────────
    HOME PAGE
 ───────────────────────────────────────────── */

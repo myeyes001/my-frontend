@@ -1,19 +1,34 @@
 import { useState, useEffect } from "react";
+import catalogueBg from '../../assets/black-back.jpg';
+
+//  IMPORTER LES IMAGES DES PRODUITS
+import pizzaImg from '../../assets/Pizza Margherita.jpg';
+import sandwichImg from '../../assets/sandwich.jpg';
+import espressoImg from '../../assets/espresso.jpg';
+import jusImg from '../../assets/jus.jpg';
+import croissantImg from '../../assets/croissant.jpg';
+import cheesecakeImg from '../../assets/cheesecake.jpg';
+import saladeImg from '../../assets/salade.jpg';
+import burgerImg from '../../assets/burger.jpg';
+import theImg from '../../assets/the.jpg';
+import tarteImg from '../../assets/tarte.jpg';
+import buddhaImg from '../../assets/buddha.jpg';
+import brownieImg from '../../assets/brownie.jpg';
 
 /* ── Mock Data ── */
 const MOCK_PRODUCTS = [
-  { id: 1, name: "Pizza Margherita", category: "Fast-food", price: 25, emoji: "🍕", description: "Tomate, mozzarella, basilic frais" },
-  { id: 2, name: "Sandwich Club", category: "Fast-food", price: 18, emoji: "🥪", description: "Poulet grillé, salade, tomate" },
-  { id: 3, name: "Espresso Puro", category: "Boissons", price: 8, emoji: "☕", description: "Espresso avec une touche de crème" },
-  { id: 4, name: "Jus d'Orange Frais", category: "Boissons", price: 12, emoji: "🍊", description: "Pressé à la minute" },
-  { id: 5, name: "Croissant Beurre", category: "Desserts", price: 7, emoji: "🥐", description: "Beurré, feuilleté, doré" },
-  { id: 6, name: "Cheesecake Premium", category: "Desserts", price: 20, emoji: "🍰", description: "Fruits rouges, fromage frais" },
-  { id: 7, name: "Salade César", category: "Repas", price: 22, emoji: "🥗", description: "Laitue, parmesan, croûtons" },
-  { id: 8, name: "Burger Maison", category: "Fast-food", price: 30, emoji: "🍔", description: "Steak haché, cheddar, pickles" },
-  { id: 9, name: "Thé Matcha", category: "Boissons", price: 10, emoji: "🍵", description: "Vert premium, fouetté" },
-  { id: 10, name: "Tarte aux Pommes", category: "Desserts", price: 18, emoji: "🥧", description: "Pâte brisée, pommes caramélisées" },
-  { id: 11, name: "Buddha Bowl", category: "Repas", price: 28, emoji: "🍲", description: "Riz, légumes, sauce tahini" },
-  { id: 12, name: "Brownie Chocolat", category: "Desserts", price: 12, emoji: "🍫", description: "Coulant, riche, intense" },
+  { id: 1, name: "Pizza Margherita", category: "Fast-food", price: 25, image: pizzaImg, description: "Tomate, mozzarella, basilic frais" },
+  { id: 2, name: "Sandwich ", category: "Fast-food", price: 18, image: sandwichImg, description: "Poulet grillé, salade, tomate" },
+  { id: 3, name: "Espresso ", category: "Boissons", price: 8, image: espressoImg, description: "Espresso avec une touche de crème" },
+  { id: 4, name: "Jus d'Orange Frais", category: "Boissons", price: 12, image: jusImg, description: "Pressé à la minute" },
+  { id: 5, name: "Croissant ", category: "Desserts", price: 7, image: croissantImg, description: "Beurré, feuilleté, doré" },
+  { id: 6, name: "Cheesecake ", category: "Desserts", price: 20, image: cheesecakeImg, description: "Fruits rouges, fromage frais" },
+  { id: 7, name: "Salade ", category: "Repas", price: 22, image: saladeImg, description: "Laitue, parmesan, croûtons" },
+  { id: 8, name: "Burger ", category: "Fast-food", price: 30, image: burgerImg, description: "Steak haché, cheddar, pickles" },
+  { id: 9, name: "Thé marocain", category: "Boissons", price: 10, image: theImg, description: "Vert premium, fouetté" },
+  { id: 10, name: "Tarte aux fraises", category: "Desserts", price: 18, image: tarteImg, description: "Pâte brisée, pommes caramélisées" },
+  { id: 11, name: "Buddha Bowl", category: "Repas", price: 28, image: buddhaImg, description: "Riz, légumes, sauce tahini" },
+  { id: 12, name: "Brownie Chocolat", category: "Desserts", price: 12, image: brownieImg, description: "Coulant, riche, intense" },
 ];
 
 const CATEGORIES = ["Tous", "Fast-food", "Boissons", "Desserts", "Repas"];
@@ -58,108 +73,121 @@ function ProductCard({ product, delay = 0 }) {
         cursor: "pointer",
         display: "flex",
         flexDirection: "column",
-        padding: "1.5rem",
         animation: `fadeInUp 0.6s ease ${delay}ms both`,
         boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
+        transform: isHovered ? "translateY(-12px)" : "translateY(0)",
+        borderColor: isHovered ? "#EF4444" : "#F3F4F6",
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onMouseMove={() => setIsHovered(true)}
       className="product-card"
     >
-      {/* Emoji Container */}
+      {/* ✅ IMAGE CONTAINER - SANS EMOJI */}
       <div style={{
-        width: "80px",
-        height: "80px",
-        background: "linear-gradient(135deg, #FEE2E2 0%, #FEF2F2 100%)",
-        borderRadius: "16px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginBottom: "1.25rem",
-        border: "2px solid rgba(239, 68, 68, 0.15)",
+        position: "relative",
+        width: "100%",
+        height: "200px",
+        overflow: "hidden",
+        background: "#F3F4F6",
       }}>
-        <span style={{
-          fontSize: "2.5rem",
-          display: "block",
-          transition: "transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
-          transform: isHovered ? "scale(1.15) rotate(5deg)" : "scale(1)",
-        }}>
-          {product.emoji}
-        </span>
+        <img
+          src={product.image}
+          alt={product.name}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            transition: "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+            transform: isHovered ? "scale(1.1)" : "scale(1)",
+          }}
+        />
+        
+        {/* ✅ OVERLAY AU SURVOL */}
+        {isHovered && (
+          <div style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(239, 68, 68, 0.2) 100%)",
+          }}></div>
+        )}
       </div>
 
-      {/* Content */}
-      <div style={{ marginBottom: "0.5rem" }}>
-        <span style={{
-          display: "inline-block",
-          fontSize: "0.75rem",
+      {/* ✅ CONTENT AVEC PADDING */}
+      <div style={{ padding: "1.5rem", display: "flex", flexDirection: "column", flex: 1 }}>
+        {/* Category Tag */}
+        <div style={{ marginBottom: "0.5rem" }}>
+          <span style={{
+            display: "inline-block",
+            fontSize: "0.75rem",
+            fontWeight: 700,
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+            color: "#EF4444",
+            background: "rgba(239, 68, 68, 0.1)",
+            padding: "0.4rem 0.8rem",
+            borderRadius: "6px",
+            marginBottom: "0.5rem",
+          }}>
+            {product.category}
+          </span>
+        </div>
+
+        {/* Product Name */}
+        <h3 style={{
+          fontSize: "1.15rem",
           fontWeight: 700,
-          textTransform: "uppercase",
-          letterSpacing: "0.1em",
-          color: "#EF4444",
-          background: "rgba(239, 68, 68, 0.1)",
-          padding: "0.4rem 0.8rem",
-          borderRadius: "6px",
-          marginBottom: "0.5rem",
+          color: "#1F2937",
+          margin: "0.75rem 0 0.5rem",
+          lineHeight: 1.4,
         }}>
-          {product.category}
-        </span>
-      </div>
+          {product.name}
+        </h3>
 
-      <h3 style={{
-        fontSize: "1.15rem",
-        fontWeight: 700,
-        color: "#1F2937",
-        margin: "0.75rem 0 0.5rem",
-        lineHeight: 1.4,
-      }}>
-        {product.name}
-      </h3>
-
-      <p style={{
-        fontSize: "0.85rem",
-        color: "#9CA3AF",
-        margin: "0 0 1rem",
-        lineHeight: 1.5,
-        flexGrow: 1,
-      }}>
-        {product.description}
-      </p>
-
-      {/* Price & Button */}
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        paddingTop: "1rem",
-        borderTop: "1px solid #F3F4F6",
-      }}>
-        <span style={{
-          fontSize: "1.5rem",
-          fontWeight: 700,
-          color: "#EF4444",
+        {/* Description */}
+        <p style={{
+          fontSize: "0.85rem",
+          color: "#9CA3AF",
+          margin: "0 0 1rem",
+          lineHeight: 1.5,
+          flexGrow: 1,
         }}>
-          {product.price} DH
-        </span>
-        <button style={{
-          width: "40px",
-          height: "40px",
-          borderRadius: "10px",
-          background: "linear-gradient(135deg, #EF4444 0%, #DC2626 100%)",
-          border: "none",
-          color: "#FFFFFF",
+          {product.description}
+        </p>
+
+        {/* Price & Add Button */}
+        <div style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer",
-          transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
-          boxShadow: "0 4px 12px rgba(239, 68, 68, 0.3)",
-          padding: 0,
-          transform: isHovered ? "translateX(4px)" : "none",
+          justifyContent: "space-between",
+          paddingTop: "1rem",
+          borderTop: "1px solid #F3F4F6",
         }}>
-          <IconArrowRight />
-        </button>
+          <span style={{
+            fontSize: "1.5rem",
+            fontWeight: 700,
+            color: "#EF4444",
+          }}>
+            {product.price} DH
+          </span>
+          <button style={{
+            width: "40px",
+            height: "40px",
+            borderRadius: "10px",
+            background: "linear-gradient(135deg, #EF4444 0%, #DC2626 100%)",
+            border: "none",
+            color: "#FFFFFF",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            transition: "all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+            boxShadow: "0 4px 12px rgba(239, 68, 68, 0.3)",
+            padding: 0,
+            transform: isHovered ? "translateX(4px) scale(1.05)" : "none",
+          }}>
+            <IconArrowRight />
+          </button>
+        </div>
       </div>
 
       {/* Shine effect */}
@@ -170,23 +198,10 @@ function ProductCard({ product, delay = 0 }) {
           left: 0,
           width: "100%",
           height: "100%",
-          background: "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%)",
+          background: "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%)",
           pointerEvents: "none",
           animation: "shine 0.6s ease",
         }}></div>
-      )}
-
-      {/* Hover effect */}
-      {isHovered && (
-        <style>{`
-          @keyframes cardHover {
-            to {
-              border-color: #EF4444;
-              transform: translateY(-12px);
-              box-shadow: 0 20px 48px rgba(239, 68, 68, 0.2);
-            }
-          }
-        `}</style>
       )}
     </div>
   );
@@ -315,7 +330,7 @@ export default function Catalogue() {
         }
       `}</style>
 
-      {/* ── Header ── */}
+      {/* ── Header AVEC IMAGE ── */}
       <header style={{
         position: "relative",
         padding: "5rem 2rem 4rem",
@@ -324,12 +339,26 @@ export default function Catalogue() {
         opacity: headerVisible ? 1 : 0,
         transform: headerVisible ? "none" : "translateY(-30px)",
         transition: "all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)",
+        backgroundImage: `url(${catalogueBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
       }}>
+        {/* Overlay sombre */}
         <div style={{
           position: "absolute",
           inset: 0,
-          background: "linear-gradient(135deg, #FFFFFF 0%, #F8FAFF 50%, #F0F4FF 100%)",
+          background: "rgba(0, 0, 0, 0.5)",
+          zIndex: 0,
+        }}></div>
+
+        {/* Gradient overlay */}
+        <div style={{
+          position: "absolute",
+          inset: 0,
+          background: "linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(248, 250, 255, 0.05) 50%, rgba(240, 244, 255, 0.1) 100%)",
           borderBottom: "1px solid rgba(239, 68, 68, 0.1)",
+          zIndex: 1,
         }}></div>
 
         {/* Orbs */}
@@ -344,6 +373,7 @@ export default function Catalogue() {
           opacity: 0.6,
           background: "radial-gradient(circle, rgba(239, 68, 68, 0.3) 0%, transparent 70%)",
           animation: "floatOrb1 8s ease-in-out infinite",
+          zIndex: 2,
         }}></div>
 
         <div style={{
@@ -357,6 +387,7 @@ export default function Catalogue() {
           opacity: 0.6,
           background: "radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%)",
           animation: "floatOrb2 10s ease-in-out infinite",
+          zIndex: 2,
         }}></div>
 
         {/* Grid pattern */}
@@ -366,6 +397,7 @@ export default function Catalogue() {
           backgroundImage: `linear-gradient(rgba(239, 68, 68, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(239, 68, 68, 0.05) 1px, transparent 1px)`,
           backgroundSize: "40px 40px",
           pointerEvents: "none",
+          zIndex: 3,
         }}></div>
 
         <div style={{
@@ -381,19 +413,18 @@ export default function Catalogue() {
             margin: "0 0 0.75rem",
             letterSpacing: "-0.02em",
             animation: "slideDown 0.6s ease 0.3s both",
-            background: "linear-gradient(135deg, #EF4444 0%, #DC2626 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
+            color: "#FFFFFF",
+            textShadow: "0 2px 8px rgba(0, 0, 0, 0.3)",
           }}>
             Découvrez Notre Catalogue
           </h1>
           <p style={{
             fontSize: "1.1rem",
-            color: "#6B7280",
+            color: "rgba(255, 255, 255, 0.9)",
             fontWeight: 500,
             margin: 0,
             animation: "slideDown 0.6s ease 0.4s both",
+            textShadow: "0 1px 4px rgba(0, 0, 0, 0.2)",
           }}>
             Une sélection culinaire pour tous vos moments de la journée
           </p>
