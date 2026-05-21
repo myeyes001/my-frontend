@@ -1,7 +1,11 @@
+import Dashboard from "./pages/user/Dashboard";
+import Cart from "./pages/user/Cart";
+import Orders from "./pages/user/Orders";
+import Profile from "./pages/user/Profile";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 
-import Home from "./pages/public/Home";
 import Login from "./pages/public/Login";
 import Register from "./pages/public/Register";
 import Catalogue from "./pages/public/Catalogue";
@@ -22,11 +26,15 @@ function App() {
       <BrowserRouter>
         <Routes>
           {/* ── Public routes (with Navbar + Footer) ── */}
-          <Route path="/" element={<><Navbar /><Home /><Footer /></>} />
+         <Route path="/" element={<><Navbar /><Dashboard /><Footer /></>} />
           <Route path="/login" element={<><Navbar /><Login /><Footer /></>} />
           <Route path="/register" element={<><Navbar /><Register /><Footer /></>} />
           <Route path="/catalogue" element={<><Navbar /><Catalogue /><Footer /></>} />
+          <Route path="/cart" element={<><Navbar /><Cart /><Footer /></>} />
 
+<Route path="/orders" element={<><Navbar /><Orders /><Footer /></>} />
+
+<Route path="/profile" element={<><Navbar /><Profile /><Footer /></>} />
           {/* ── Admin routes (own layout, no Navbar/Footer) ── */}
           <Route path="/admin" element={<AdminDashboard />}>
             <Route path="orders" element={<AdminOrders />} />

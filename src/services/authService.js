@@ -2,8 +2,7 @@
 import axios from 'axios';
 
 // URL du backend Laravel
-const API_URL = 'http://localhost:8000/api';
-
+const API_URL = 'http://127.0.0.1:8000/api';
 // Créer une instance axios
 const api = axios.create({
   baseURL: API_URL,
@@ -177,4 +176,4 @@ const authService = {
   }
 };
 
-export default authService;npm
+export default authService;
