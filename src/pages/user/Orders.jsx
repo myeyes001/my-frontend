@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import UserLayout from "../../components/UserLayout";
+import {
+  ClipboardDocumentListIcon,
+  CheckBadgeIcon,
+  CalendarDaysIcon,
+} from "@heroicons/react/24/solid";
 
 function Orders() {
 
-  const [orders, setOrders] = useState([]);
-
-  useEffect(() => {
-
-    const savedOrders =
-      JSON.parse(localStorage.getItem("orders")) || [];
-
-    setOrders(savedOrders);
-
-  }, []);
+  const orders =
+    JSON.parse(localStorage.getItem("orders")) || [];
 
   return (
     <UserLayout>
@@ -24,93 +21,230 @@ function Orders() {
         }}
       >
 
-        <h1
+        {/* TITLE */}
+
+        <div
           style={{
-            fontSize: "42px",
-            fontWeight: "bold",
-            marginBottom: "40px",
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            marginBottom: "35px",
           }}
         >
-          Mes commandes 📦
-        </h1>
 
-        {orders.length === 0 ? (
-
-          <div
+          <ClipboardDocumentListIcon
             style={{
-              background: "#fff",
-              padding: "40px",
-              borderRadius: "24px",
-              textAlign: "center",
-              boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+              width: "42px",
+              color: "#ff3131",
+            }}
+          />
+
+          <h1
+            style={{
+              fontSize: "42px",
             }}
           >
-            <h2>Aucune commande 😢</h2>
+            Mes commandes
+          </h1>
 
-            <p
-              style={{
-                color: "#777",
-                marginTop: "10px",
-              }}
-            >
-              Vous n'avez pas encore passé de commande.
-            </p>
-          </div>
+        </div>
 
-        ) : (
-
-          orders.map((order, index) => (
+        {
+          orders.length === 0 ? (
 
             <div
-              key={index}
               style={{
                 background: "#fff",
-                borderRadius: "24px",
-                padding: "25px",
-                marginBottom: "25px",
-                boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+                padding: "60px",
+                borderRadius: "30px",
+                textAlign: "center",
+                boxShadow:
+                  "0 10px 25px rgba(0,0,0,0.08)",
               }}
             >
+
+              <ClipboardDocumentListIcon
+                style={{
+                  width: "80px",
+                  color: "#ff3131",
+                  marginBottom: "20px",
+                }}
+              />
 
               <h2
                 style={{
-                  marginBottom: "15px",
-                }}
-              >
-                Commande #{index + 1}
-              </h2>
-
-              <div
-                style={{
                   color: "#555",
-                  marginBottom: "15px",
                 }}
               >
-                {order.items.join(" , ")}
-              </div>
-
-              <h3
-                style={{
-                  color: "#ff3131",
-                }}
-              >
-                Total : {order.total} DH
-              </h3>
-
-              <p
-                style={{
-                  marginTop: "10px",
-                  color: "#22c55e",
-                  fontWeight: "bold",
-                }}
-              >
-                ✔ Commande confirmée
-              </p>
+                Aucune commande
+              </h2>
 
             </div>
 
-          ))
-        )}
+          ) : (
+
+            orders
+              .slice()
+              .reverse()
+              .map((order, index) => (
+
+                <div
+                  key={index}
+                  style={{
+                    background: "#fff",
+                    borderRadius: "28px",
+                    padding: "30px",
+                    marginBottom: "25px",
+                    boxShadow:
+                      "0 10px 25px rgba(0,0,0,0.08)",
+                  }}
+                >
+
+                  {/* HEADER */}
+
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginBottom: "25px",
+                      flexWrap: "wrap",
+                      gap: "10px",
+                    }}
+                  >
+
+                    <div>
+
+                      <h2
+                        style={{
+                          color: "#ff3131",
+                          marginBottom: "8px",
+                        }}
+                      >
+                        Commande #{orders.length - index}
+                      </h2>
+
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          color: "#777",
+                        }}
+                      >
+
+                        <CalendarDaysIcon
+                          style={{
+                            width: "18px",
+                          }}
+                        />
+
+                        {order.date}
+
+                      </div>
+
+                    </div>
+
+                    <div
+                      style={{
+                        background: "#22c55e",
+                        color: "white",
+                        padding: "10px 18px",
+                        borderRadius: "14px",
+                        fontWeight: "bold",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "6px",
+                      }}
+                    >
+
+                      <CheckBadgeIcon
+                        style={{
+                          width: "20px",
+                        }}
+                      />
+
+                      Livrée
+
+                    </div>
+
+                  </div>
+
+                  {/* ITEMS */}
+
+                  <div
+                    style={{
+                      background: "#f8f8f8",
+                      padding: "20px",
+                      borderRadius: "18px",
+                    }}
+                  >
+
+                    {
+                      order.items.map((item, i) => (
+
+                        <div
+                          key={i}
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            marginBottom: "12px",
+                          }}
+                        >
+
+                          <span>{item}</span>
+
+                          <span
+                            style={{
+                              color: "#777",
+                            }}
+                          >
+                            ✓
+                          </span>
+
+                        </div>
+
+                      ))
+                    }
+
+                  </div>
+
+                  {/* TOTAL */}
+
+                  <div
+                    style={{
+                      marginTop: "25px",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+
+                    <h3
+                      style={{
+                        color: "#555",
+                      }}
+                    >
+                      Total
+                    </h3>
+
+                    <h2
+                      style={{
+                        color: "#ff3131",
+                        fontSize: "30px",
+                      }}
+                    >
+                      {order.total} DH
+                    </h2>
+
+                  </div>
+
+                </div>
+
+              ))
+
+          )
+        }
 
       </div>
 

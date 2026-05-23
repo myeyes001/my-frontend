@@ -1,24 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UserLayout from "../../components/UserLayout";
+
+import {
+  UserCircleIcon,
+  EnvelopeIcon,
+  ShoppingBagIcon,
+  CurrencyDollarIcon,
+  StarIcon,
+  PencilSquareIcon,
+  CheckIcon,
+} from "@heroicons/react/24/solid";
 
 function Profile() {
 
-  const cart =
-    JSON.parse(localStorage.getItem("cart")) || [];
+  const [editing, setEditing] = useState(false);
 
-  const orders =
-    JSON.parse(localStorage.getItem("orders")) || [];
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+  });
 
-  // Nombre produits panier
+  const [cart, setCart] = useState([]);
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+
+    const savedUser =
+      JSON.parse(localStorage.getItem("user"));
+
+    const savedCart =
+      JSON.parse(localStorage.getItem("cart")) || [];
+
+    const savedOrders =
+      JSON.parse(localStorage.getItem("orders")) || [];
+
+    if (savedUser) {
+      setUserData(savedUser);
+    }
+
+    setCart(savedCart);
+    setOrders(savedOrders);
+
+  }, []);
+
+  // STATS
+
   const cartCount = cart.length;
 
-  // Total dépensé
   const totalSpent = orders.reduce(
     (sum, order) => sum + order.total,
     0
   );
 
-  // Rating dynamique
   let rating = 0;
 
   if (orders.length >= 1) rating = 3.5;
@@ -26,31 +59,19 @@ function Profile() {
   if (orders.length >= 5) rating = 4.7;
   if (orders.length >= 10) rating = 5;
 
-  const [name, setName] = useState(
-    localStorage.getItem("userName") || "Mohamed User"
-  );
+  // SAVE PROFILE
 
-  const [email, setEmail] = useState(
-    localStorage.getItem("userEmail") || "mohamed@gmail.com"
-  );
+  const handleSave = () => {
 
-  const [phone, setPhone] = useState(
-    localStorage.getItem("userPhone") || "+212 6 00 00 00 00"
-  );
-
-  const [editing, setEditing] = useState(false);
-
-  const saveProfile = () => {
-
-    localStorage.setItem("userName", name);
-
-    localStorage.setItem("userEmail", email);
-
-    localStorage.setItem("userPhone", phone);
+    localStorage.setItem(
+      "user",
+      JSON.stringify(userData)
+    );
 
     setEditing(false);
 
-    alert("Profil mis à jour ✅");
+    window.location.reload();
+
   };
 
   return (
@@ -58,23 +79,23 @@ function Profile() {
 
       <div
         style={{
-          padding: "40px",
-          paddingBottom: "120px",
+          padding: "30px",
+          paddingBottom: "140px",
         }}
       >
 
-        {/* HEADER */}
+        {/* PROFILE CARD */}
+
         <div
           style={{
-            background: "linear-gradient(135deg, #ff3131, #ff7b7b)",
+            background:
+              "linear-gradient(135deg,#ff3131,#ff6b6b)",
             borderRadius: "35px",
-            padding: "50px 40px",
+            padding: "40px",
             color: "white",
-            display: "flex",
-            alignItems: "center",
-            gap: "30px",
-            marginBottom: "40px",
-            boxShadow: "0 15px 40px rgba(255,49,49,0.30)",
+            boxShadow:
+              "0 15px 40px rgba(255,49,49,0.25)",
+            marginBottom: "35px",
             position: "relative",
             overflow: "hidden",
           }}
@@ -83,89 +104,190 @@ function Profile() {
           <div
             style={{
               position: "absolute",
+              top: "-50px",
+              right: "-50px",
               width: "220px",
               height: "220px",
               borderRadius: "50%",
-              background: "rgba(255,255,255,0.12)",
-              top: "-70px",
-              right: "-70px",
+              background:
+                "rgba(255,255,255,0.12)",
             }}
           />
 
-          {/* AVATAR */}
           <div
             style={{
-              width: "120px",
-              height: "120px",
-              borderRadius: "50%",
-              background: "white",
-              color: "#ff3131",
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "space-between",
               alignItems: "center",
-              fontSize: "50px",
-              fontWeight: "bold",
-              zIndex: 2,
-              boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
+              flexWrap: "wrap",
+              gap: "20px",
             }}
           >
-            {name.charAt(0)}
-          </div>
 
-          {/* USER INFO */}
-          <div style={{ zIndex: 2 }}>
-
-            <h1
-              style={{
-                fontSize: "42px",
-                marginBottom: "10px",
-                fontWeight: "bold",
-              }}
-            >
-              {name}
-            </h1>
-
-            <p
-              style={{
-                fontSize: "18px",
-                opacity: 0.95,
-                marginBottom: "15px",
-              }}
-            >
-              Étudiant • Université
-            </p>
+            {/* LEFT SIDE */}
 
             <div
               style={{
-                display: "inline-block",
-                background: "rgba(255,255,255,0.18)",
-                padding: "10px 18px",
-                borderRadius: "14px",
-                fontWeight: "bold",
+                display: "flex",
+                alignItems: "center",
+                gap: "25px",
+                flexWrap: "wrap",
               }}
             >
-              ⭐ Premium Client
+
+              {/* AVATAR */}
+
+              <div
+                style={{
+                  width: "120px",
+                  height: "120px",
+                  borderRadius: "50%",
+                  background: "white",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  color: "#ff3131",
+                  fontSize: "55px",
+                  fontWeight: "bold",
+                  boxShadow:
+                    "0 10px 25px rgba(0,0,0,0.15)",
+                }}
+              >
+                {
+                  userData?.name
+                    ?.charAt(0)
+                    ?.toUpperCase()
+                }
+              </div>
+
+              {/* INFOS */}
+
+              <div>
+
+                <h1
+                  style={{
+                    fontSize: "52px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  {userData?.name}
+                </h1>
+
+                <p
+                  style={{
+                    fontSize: "22px",
+                    opacity: 0.9,
+                  }}
+                >
+                  Étudiant • Université
+                </p>
+
+                <div
+                  style={{
+                    marginTop: "18px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    background:
+                      "rgba(255,255,255,0.18)",
+                    padding: "10px 18px",
+                    borderRadius: "14px",
+                    fontWeight: "bold",
+                  }}
+                >
+
+                  <StarIcon
+                    style={{
+                      width: "22px",
+                      color: "#ffe066",
+                    }}
+                  />
+
+                  Premium Client
+
+                </div>
+
+              </div>
+
             </div>
+
+            {/* BUTTON */}
+
+            {
+              editing ? (
+
+                <button
+                  onClick={handleSave}
+                  style={{
+                    background: "#22c55e",
+                    border: "none",
+                    color: "white",
+                    padding: "14px 22px",
+                    borderRadius: "16px",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                  }}
+                >
+                  <CheckIcon
+                    style={{
+                      width: "20px",
+                      display: "inline",
+                      marginRight: "6px",
+                    }}
+                  />
+                  Sauvegarder
+                </button>
+
+              ) : (
+
+                <button
+                  onClick={() => setEditing(true)}
+                  style={{
+                    background: "white",
+                    border: "none",
+                    color: "#ff3131",
+                    padding: "14px 22px",
+                    borderRadius: "16px",
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                    fontSize: "16px",
+                  }}
+                >
+                  <PencilSquareIcon
+                    style={{
+                      width: "20px",
+                      display: "inline",
+                      marginRight: "6px",
+                    }}
+                  />
+                  Modifier
+                </button>
+
+              )
+            }
 
           </div>
 
         </div>
 
-        {/* PROFILE CARDS */}
+        {/* CONTENT */}
+
         <div
           style={{
             display: "grid",
             gridTemplateColumns:
-              "repeat(auto-fit, minmax(300px, 1fr))",
+              "repeat(auto-fit,minmax(320px,1fr))",
             gap: "25px",
           }}
         >
 
-          {/* PERSONAL INFO */}
+          {/* INFORMATIONS */}
+
           <div
             style={{
               background: "#fff",
-              borderRadius: "25px",
+              borderRadius: "28px",
               padding: "30px",
               boxShadow:
                 "0 10px 25px rgba(0,0,0,0.08)",
@@ -174,136 +296,149 @@ function Profile() {
 
             <h2
               style={{
-                marginBottom: "25px",
                 color: "#ff3131",
+                marginBottom: "30px",
+                fontSize: "32px",
               }}
             >
               Informations personnelles
             </h2>
 
             {/* NAME */}
-            <div style={{ marginBottom: "20px" }}>
-              <p style={{ color: "#888" }}>
+
+            <div
+              style={{
+                marginBottom: "25px",
+              }}
+            >
+
+              <p
+                style={{
+                  color: "#999",
+                  marginBottom: "8px",
+                }}
+              >
                 Nom complet
               </p>
 
-              {editing ? (
-                <input
-                  value={name}
-                  onChange={(e) =>
-                    setName(e.target.value)
-                  }
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "12px",
-                    border: "1px solid #ddd",
-                    marginTop: "8px",
-                  }}
-                />
-              ) : (
-                <h3>{name}</h3>
-              )}
+              {
+                editing ? (
+
+                  <input
+                    type="text"
+                    value={userData.name}
+                    onChange={(e) =>
+                      setUserData({
+                        ...userData,
+                        name: e.target.value,
+                      })
+                    }
+                    style={{
+                      width: "100%",
+                      padding: "16px",
+                      borderRadius: "16px",
+                      border: "1px solid #ddd",
+                      fontSize: "18px",
+                    }}
+                  />
+
+                ) : (
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      fontSize: "22px",
+                      fontWeight: "bold",
+                    }}
+                  >
+
+                    <UserCircleIcon
+                      style={{
+                        width: "28px",
+                        color: "#ff3131",
+                      }}
+                    />
+
+                    {userData.name}
+
+                  </div>
+
+                )
+              }
+
             </div>
 
             {/* EMAIL */}
-            <div style={{ marginBottom: "20px" }}>
-              <p style={{ color: "#888" }}>
+
+            <div>
+
+              <p
+                style={{
+                  color: "#999",
+                  marginBottom: "8px",
+                }}
+              >
                 Email
               </p>
 
-              {editing ? (
-                <input
-                  value={email}
-                  onChange={(e) =>
-                    setEmail(e.target.value)
-                  }
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "12px",
-                    border: "1px solid #ddd",
-                    marginTop: "8px",
-                  }}
-                />
-              ) : (
-                <h3>{email}</h3>
-              )}
+              {
+                editing ? (
+
+                  <input
+                    type="email"
+                    value={userData.email}
+                    onChange={(e) =>
+                      setUserData({
+                        ...userData,
+                        email: e.target.value,
+                      })
+                    }
+                    style={{
+                      width: "100%",
+                      padding: "16px",
+                      borderRadius: "16px",
+                      border: "1px solid #ddd",
+                      fontSize: "18px",
+                    }}
+                  />
+
+                ) : (
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      fontSize: "20px",
+                    }}
+                  >
+
+                    <EnvelopeIcon
+                      style={{
+                        width: "25px",
+                        color: "#ff3131",
+                      }}
+                    />
+
+                    {userData.email}
+
+                  </div>
+
+                )
+              }
+
             </div>
-
-            {/* PHONE */}
-            <div style={{ marginBottom: "20px" }}>
-              <p style={{ color: "#888" }}>
-                Téléphone
-              </p>
-
-              {editing ? (
-                <input
-                  value={phone}
-                  onChange={(e) =>
-                    setPhone(e.target.value)
-                  }
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    borderRadius: "12px",
-                    border: "1px solid #ddd",
-                    marginTop: "8px",
-                  }}
-                />
-              ) : (
-                <h3>{phone}</h3>
-              )}
-            </div>
-
-            {/* BUTTONS */}
-            {!editing ? (
-
-              <button
-                onClick={() => setEditing(true)}
-                style={{
-                  marginTop: "10px",
-                  padding: "14px 22px",
-                  border: "none",
-                  borderRadius: "14px",
-                  background: "#ff3131",
-                  color: "white",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  fontSize: "15px",
-                }}
-              >
-                Modifier Profil
-              </button>
-
-            ) : (
-
-              <button
-                onClick={saveProfile}
-                style={{
-                  marginTop: "10px",
-                  padding: "14px 22px",
-                  border: "none",
-                  borderRadius: "14px",
-                  background: "#22c55e",
-                  color: "white",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                  fontSize: "15px",
-                }}
-              >
-                Sauvegarder ✅
-              </button>
-
-            )}
 
           </div>
 
-          {/* STATS */}
+          {/* ACTIVITY */}
+
           <div
             style={{
               background: "#fff",
-              borderRadius: "25px",
+              borderRadius: "28px",
               padding: "30px",
               boxShadow:
                 "0 10px 25px rgba(0,0,0,0.08)",
@@ -312,65 +447,154 @@ function Profile() {
 
             <h2
               style={{
-                marginBottom: "25px",
                 color: "#ff3131",
+                marginBottom: "30px",
+                fontSize: "32px",
               }}
             >
               Activité
             </h2>
 
+            {/* CARD 1 */}
+
             <div
               style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "20px",
+                background: "#f8f8f8",
+                borderRadius: "22px",
+                padding: "25px",
+                marginBottom: "20px",
               }}
             >
 
-              {/* CART */}
               <div
                 style={{
-                  background: "#f5f5f5",
-                  padding: "20px",
-                  borderRadius: "18px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
                 }}
               >
-                <h1 style={{ color: "#ff3131" }}>
+
+                <ShoppingBagIcon
+                  style={{
+                    width: "35px",
+                    color: "#ff3131",
+                  }}
+                />
+
+                <h1
+                  style={{
+                    color: "#ff3131",
+                    fontSize: "42px",
+                  }}
+                >
                   {cartCount}
                 </h1>
 
-                <p>Produits dans le panier</p>
               </div>
 
-              {/* TOTAL */}
-              <div
+              <p
                 style={{
-                  background: "#f5f5f5",
-                  padding: "20px",
-                  borderRadius: "18px",
+                  marginTop: "10px",
+                  color: "#555",
                 }}
               >
-                <h1 style={{ color: "#ff3131" }}>
+                Produits dans le panier
+              </p>
+
+            </div>
+
+            {/* CARD 2 */}
+
+            <div
+              style={{
+                background: "#f8f8f8",
+                borderRadius: "22px",
+                padding: "25px",
+                marginBottom: "20px",
+              }}
+            >
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                }}
+              >
+
+                <CurrencyDollarIcon
+                  style={{
+                    width: "35px",
+                    color: "#ff3131",
+                  }}
+                />
+
+                <h1
+                  style={{
+                    color: "#ff3131",
+                    fontSize: "42px",
+                  }}
+                >
                   {totalSpent} DH
                 </h1>
 
-                <p>Total dépensé</p>
               </div>
 
-              {/* RATING */}
-              <div
+              <p
                 style={{
-                  background: "#f5f5f5",
-                  padding: "20px",
-                  borderRadius: "18px",
+                  marginTop: "10px",
+                  color: "#555",
                 }}
               >
-                <h1 style={{ color: "#ff3131" }}>
+                Total dépensé
+              </p>
+
+            </div>
+
+            {/* CARD 3 */}
+
+            <div
+              style={{
+                background: "#f8f8f8",
+                borderRadius: "22px",
+                padding: "25px",
+              }}
+            >
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                }}
+              >
+
+                <StarIcon
+                  style={{
+                    width: "35px",
+                    color: "#ff3131",
+                  }}
+                />
+
+                <h1
+                  style={{
+                    color: "#ff3131",
+                    fontSize: "42px",
+                  }}
+                >
                   {rating} ★
                 </h1>
 
-                <p>Évaluation</p>
               </div>
+
+              <p
+                style={{
+                  marginTop: "10px",
+                  color: "#555",
+                }}
+              >
+                Évaluation
+              </p>
 
             </div>
 
